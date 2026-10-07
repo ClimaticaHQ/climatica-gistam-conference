@@ -14,6 +14,8 @@
 \renewcommand\UrlFont{\color{blue}\rmfamily}
 \urlstyle{rm}
 
+\def\climatica{Web Application} % ??????
+
 \begin{document}
 
 \title{Contribution Title (How to call it?)}
@@ -47,12 +49,13 @@
 
 \begin{abstract}
 % * The abstract should briefly summarize the contents of the paper in 150--250 words.
-\keywords{First keyword  \and Second keyword \and Another keyword.}
+\abstract{\input{sections/abstract}}
+\keywords{Climate Data Visualisation \and WorldClim \and GIS \and Walter-Lieth Climatogram \and Usability Evaluation}
 \end{abstract}
 
-\input{sections/01-introduction.tex}
+\input{sections/01-introduction}
 \input{sections/02-related-work}
-\input{sections/03-climatica}
+\input{sections/03-web-application}
 \input{sections/04-evaluation}
 \input{sections/05-conclusions}
 
@@ -83,8 +86,8 @@
 
 %
 % BibTeX users should specify bibliography style 'splncs04'.
-% References will then be sorted and formatted in the correct style.
-%
+% References will then be sorted and formatted in the correct style. 
+
 \bibliographystyle{splncs04}
 \bibliography{mybibliography}
 
