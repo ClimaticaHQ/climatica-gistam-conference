@@ -3,6 +3,39 @@
 \subsection{WorldClim}\label{sec:related:worldclim} % half a page
 
 % ! begin with comparison table (Summary and Opportunity Gap for Climatica tfg section)
+\begin{sidewaystable}[p]
+  \centering
+  \caption{Comparison of climate data tools.
+  \cmark~=~supported, \pmark~=~partial, \xmark~=~not supported.}
+  \label{tab:tools}
+  \small
+  \begin{tabular}{lcccccc}
+    \toprule
+    \textbf{Feature} &
+    \textbf{\shortstack{Climate\\Charts}} &
+    \textbf{\shortstack{Climate\\Data.org}} &
+    \textbf{Meteoblue} &
+    \textbf{\shortstack{NASA\\Giovanni}} &
+    \textbf{\shortstack{Copernicus\\C3S}} &
+    \textbf{Climatica} \\
+    \midrule
+    City climate profile     & \cmark & \cmark & \cmark & \xmark & \xmark & \cmark \\
+    Walter-Lieth climatogram & \cmark & \cmark & \xmark & \xmark & \xmark & \cmark \\
+    Multi-city comparison    & \xmark & \xmark & \pmark & \xmark & \xmark & \cmark \\
+    Period trend comparison  & \xmark & \xmark & \pmark & \cmark & \cmark & \cmark \\
+    Regional spatial heatmap & \xmark & \xmark & \xmark & \cmark & \cmark & \cmark \\
+    No registration required & \cmark & \cmark & \pmark & \xmark & \xmark & \cmark \\
+    Non-specialist audience  & \cmark & \cmark & \xmark & \xmark & \xmark & \cmark \\
+    \midrule
+    Scope                    & World  & World  & World  & World  & World  & World \\
+    Spatial resolution & 30\,min & station & 1\,km & varies & 0.1$^\circ$ & 30\,sec \\
+    Climate periods          & 1 & 1 & 1 & \xmark & \cmark & 5 \\
+    Weather periods          & \xmark & \xmark & \cmark & \cmark & \cmark & 1951--2024 \\
+    Source data              & Stations & Stations & ERA5T & Satellite & ERA5 & WorldClim \\
+    \bottomrule
+  \end{tabular}
+  \normalsize
+\end{sidewaystable}
 
 % in intro mention them very briefly, just mention them and here expand info
 \subsection{Existing Climate Visualisation Tools}\label{sec:related:existing-tools}
