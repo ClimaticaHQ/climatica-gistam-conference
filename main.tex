@@ -11,8 +11,15 @@
 \usepackage{microtype} % for better typography
 \usepackage[hidelinks]{hyperref} % for clickable links in the pdf
 \usepackage{color}
+\usepackage{rotating} % for sidewaystable
+\usepackage{pifont}   % for check/cross marks
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{$\times$}
+\newcommand{\pmark}{$\circ$}
 \renewcommand\UrlFont{\color{blue}\rmfamily}
 \urlstyle{rm}
+
+\raggedbottom
 
 \def\climatica{Web Application} % ??????
 
@@ -48,9 +55,8 @@
 \maketitle
 
 \begin{abstract}
-% * The abstract should briefly summarize the contents of the paper in 150--250 words.
-\abstract{\input{sections/abstract}}
-\keywords{Climate Data Visualisation \and WorldClim \and GIS \and Walter-Lieth Climatogram \and Usability Evaluation}
+\input{sections/abstract}
+\keywords{Climate Data Visualisation \and WorldClim \and GIS \and Walter--Lieth Climograph \and Usability Evaluation}
 \end{abstract}
 
 \input{sections/01-introduction}
@@ -89,6 +95,6 @@
 % References will then be sorted and formatted in the correct style. 
 
 \bibliographystyle{splncs04}
-\bibliography{mybibliography}
+\bibliography{references}
 
 \end{document}

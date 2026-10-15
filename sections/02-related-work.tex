@@ -1,20 +1,17 @@
 \section{Related Work}\label{sec:related} % * 2 pages
 
-\subsection{WorldClim}\label{sec:related:worldclim} % half a page
-
 % ! begin with comparison table (Summary and Opportunity Gap for Climatica tfg section)
-\begin{sidewaystable}[p]
+\begin{sidewaystable}
   \centering
   \caption{Comparison of climate data tools.
   \cmark~=~supported, \pmark~=~partial, \xmark~=~not supported.}
-  \label{tab:tools}
-  \small
-  \begin{tabular}{lcccccc}
+  \label{tab:existing-tools}
+  \begin{tabular*}{\textheight}{@{\extracolsep{\fill}}lcccccc}
     \toprule
     \textbf{Feature} &
     \textbf{\shortstack{Climate\\Charts}} &
     \textbf{\shortstack{Climate\\Data.org}} &
-    \textbf{Meteoblue} &
+    \textbf{\shortstack{MeteoBlue}} &
     \textbf{\shortstack{NASA\\Giovanni}} &
     \textbf{\shortstack{Copernicus\\C3S}} &
     \textbf{Climatica} \\
@@ -33,13 +30,76 @@
     Weather periods          & \xmark & \xmark & \cmark & \cmark & \cmark & 1951--2024 \\
     Source data              & Stations & Stations & ERA5T & Satellite & ERA5 & WorldClim \\
     \bottomrule
-  \end{tabular}
+  \end{tabular*}
   \normalsize
 \end{sidewaystable}
 
 % in intro mention them very briefly, just mention them and here expand info
+% ! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< DOES OTHER APPS HAVE HEATMAP???? CHECK IT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 \subsection{Existing Climate Visualisation Tools}\label{sec:related:existing-tools}
+Several web tools offer access to the climate data visualization, ranging from simple city profiles
+for general audiences to advanced platforms for climate researchers. 
+Table~\ref{tab:existing-tools} summarizes their main features.
 
+\subsubsection{Climate-Charts.net}\label{sec:related:existing-tools:climate-charts}
+ClimateCharts.net~\cite{zepner2021climatecharts} generates Walter--Lieth climographs
+for locations worldwide and is designed for a broad audience. However, it describes
+one location at a time and offers neither comparison between places nor analysis
+over a region.
+
+\subsubsection{Climate-Data.org}\label{sec:related:existing-tools:climate-data}
+Climate-Data.org~\cite{climatedataorg} presents climate tables and climographs for
+cities, mainly oriented towards travellers. Its information is limited to individual
+locations, with no comparison between periods and no spatial view.
+
+\subsubsection{Meteoblue}\label{sec:related:existing-tools:meteoblue}
+Meteoblue~\cite{meteoblue} provides simulated climate diagrams and historical weather
+derived from reanalysis data. Several of its advanced history features, however,
+require registration or a paid subscription.
+
+\subsubsection{NASA Giovanni}\label{sec:related:existing-tools:nasa-giovanni}
+NASA Giovanni~\cite{acker2022using} is a web platform for analysing NASA satellite
+data that can produce time-averaged maps and time series. Access requires an
+Earthdata account, and the interface assumes familiarity with remote sensing datasets.
+
+\subsubsection{Copernicus C3S}\label{sec:related:existing-tools:copernicus-c3s}
+The Copernicus Climate Data Store~\cite{buontempo2022copernicus} gives access to
+ERA5 reanalysis and climate projections, along with tools for custom processing.
+Using it requires registration and a level of technical knowledge that most
+non-specialists lack.
+
+In summary, tools aimed at the general public are limited to single-location,
+station-based views, whereas tools offering spatial and temporal analysis target
+expert users. None of them combines global gridded data, comparison across
+locations and periods, and regional analysis in an interface suitable for
+non-specialists, which is the gap addressed by \climatica{}.
+
+\subsection{WorldClim}\label{sec:related:worldclim} % ±half a page
+Weather stations alone are distributed unevenly across the globe, so their records alone cannot provide
+a complete picture of climate for all areas. WorldClim~\cite{worldclim} addresses this issue by estimated climate
+value for every point of the land surface. In Version~2.1, Fick and Hijmans~\cite{fick2017worldclim} retrieved 
+climate data by interpolating station observations with the help of covariates such as elevation, distance to
+the coast and satellite measurements. It is published as a set of grids with 4 resolutions 10 arc-minutes 
+($\approx$18.5\,km at the equator), 5 arc-minutes ($\approx$9.2\,km), 2.5 arc-minutes ($\approx$4.6\,km), and 30
+arc-seconds ($\approx$900\,m). Thanks to its global coverage and fine resolution, WorldClim has become a common
+data source in species distribution modelling~\cite{jimenez2021climate}, climate
+change impact studies~\cite{berio2023examining} and crop suitability
+analysis~\cite{xian2022predicting}.
+
+For the reference period 1970--2000, the dataset offers monthly values of minimum, mean and maximum temperature, 
+precipitation, solar radiation, wind speed and vapour pressure, (and 19 bioclimatic variables more), computed from 
+temperature and precipitation. A second collection contains month-by-month weather for 1951--2024,
+built upon CRU-TS~\cite{harris2020version}. Averaging these records over 30-year windows
+yields four additional climate normals (1951--1980, 1961--1990, 1981--2010 and
+1991--2020)~\cite{scrapi}, so five periods are available to examine how climate has
+changed over time.
+
+The main obstacle is the format. The data come as thousands of GeoTIFF files
+(8{,}836, about 85.6\,GB in total), and even a simple question such as the average
+July temperature of a city requires locating the right file and extracting the value
+with GIS tools or libraries such as GDAL~\cite{mcinerney2015open}. Comparing periods
+or summarising a whole region multiplies this effort, which explains why the dataset
+is rarely used outside the research community.
 
 % accessibility of data for non-specialist users
 % \subsection{GIS for non-specialist users}\label{sec:}

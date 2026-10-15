@@ -9,9 +9,9 @@
 % * worldclim could be used in a lot of cases but it was hard to access this data
 % \subsection{Motivation and Background}\label{sec:motivation}
 % \cite{S.2026Design}
-Climate change has become one of the most pressing global concerns. According to the
-Peoples' Climate Vote 2024~\cite{undp2024pcv}, roughly seven in ten people worldwide report
-that climate change influences their major life decisions. Understanding how temperature,
+Climate change has become one of the most pressing global concerns. According to the Peoples' 
+Climate Vote 2024~\cite{flynn2024peoples}, 69\% of people worldwide report that climate 
+change influences their major life decisions. Understanding how temperature,
 precipitation or solar radiation evolve in a given region, and comparing climate across
 periods or locations, can support informed decisions in agriculture, tourism, urban
 planning and many other domains.
@@ -21,7 +21,7 @@ Climate data itself is abundant. WorldClim~\cite{worldclim}, for instance, is an
 offering global gridded climate surfaces with 26 variables (including temperature,
 precipitation, solar radiation and wind speed) at resolutions from 30 arc-seconds to
 10 arc-minutes, covering historical, recent and future periods. However, despite the rich data 
-provided by WorldClim, it is combersome to retrieve and visualize needed information. It 
+provided by WorldClim, it is cumbersome to retrieve and visualize needed information. It 
 requires downloading large raster files and processing them with specialised GIS software,
 which demands time and expertise that most potential users lack.
 
@@ -29,9 +29,9 @@ which demands time and expertise that most potential users lack.
 
 % ? problem to solve: existing tools are not user friendly, require GIS knowledge, or are static..
 % \subsection{Objectives}\label{sec:objectives}
-Existing web tools only partially address this problem. Climate-Charts.net~\cite{climatecharts},
+Existing web tools only partially address this problem. Climate-Charts.net~\cite{zepner2021climatecharts},
 a representative example, relies on raw meteorological station records, leaving large regions
-poorly covered and values between stations unreliable; It is also restricted to a single historical 
+poorly covered and values between stations unreliable; it is also restricted to a single historical 
 baseline and offers no regional analysis.
 
 Other tools, reviewed in Section~\ref{sec:related:existing-tools}, show similar issues: narrow regional
@@ -39,7 +39,7 @@ coverage, point-based or coarse resolution, limited time periods, and static
 single-location views without comparison across places or periods. 
 WorldClim does not suffer from these
 limitations; on the contrary provides gridded global coverage, fine spatial resolution and historical, 
-recent and future periods. what it lacks is an accessible interface, to  make the data easy to use by 
+recent and future periods. What it lacks is an accessible interface, to  make the data easy to use by 
 everyone who needs it.
 
 % ? proposed solution
@@ -48,8 +48,7 @@ access to WorldClim data without requiring GIS expertise. Its main contributions
 (i)~visualisation of selected climate variables for any location worldwide, chosen on an
 interactive map, as Walter--Lieth climographs or bar charts;
 (ii)~comparison of climate across time periods and between locations;
-(iii)~regional heatmaps for analysing user-drawn areas; and
-(iv)~export of results as images (PNG, SVG) or raw data (CSV, JSON) for further research.
+(iii)~export of results as images (PNG, SVG) or raw data (CSV, JSON) for further research.
 
 % TODO: one sentence linking the work to the conference topics (web GIS, geospatial data access)
 
@@ -57,5 +56,5 @@ interactive map, as Walter--Lieth climographs or bar charts;
 The remainder of this paper is organised as follows. Section~\ref{sec:related} introduces the WorldClim dataset
 and describes existing climate visualisation tools. Section~\ref{sec:web-application} presents \climatica{},
 covering its requirements, data integration, architecture and main features. Section~\ref{sec:evaluation} describes
-the user evaluation and its results, also covering some discussion quiestions, and section~\ref{sec:conclusions} 
+the user evaluation and its results, also covering some discussion quiestions, and Section~\ref{sec:conclusions} 
 concludes the paper and outlines the future work.
