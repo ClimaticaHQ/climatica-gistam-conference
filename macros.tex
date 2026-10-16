@@ -1,0 +1,44 @@
+% * ________________ Symbols ________________
+% * comparison table
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{$\times$}
+\newcommand{\pmark}{$\circ$}
+
+
+
+% * ________________ Anonymisation switch ________________
+\newif\ifanonymous
+\anonymoustrue % ! \anonymousfalse for the final version
+
+
+
+% * ________________ Variables ________________
+\newcommand{\paperskeywords}{Climate Data Visualisation \and WorldClim \and GIS \and Walter--Lieth Climograph \and Usability Evaluation}
+
+\ifanonymous
+  \newcommand{\papertitle}{Contribution Title (How to call it?)}
+
+  \newcommand{\papersauthor}{Anonymous Author(s)}
+  \newcommand{\papersauthorrunning}{Anonymous}
+  \newcommand{\papersinstitute}{Anonymous Institution}
+
+  \newcommand{\webappname}{Web Application}
+  \newcommand{\webappurl}{\url{https://webapp.example.com}}
+
+  \newcommand{\climateexpert}{a forest management expert}
+  \newcommand{\examplecity}{Example City (Country)}
+
+
+\else
+  \newcommand{\papertitle}{Contribution Title (How to call it?)}
+
+  \newcommand{\papersauthor}{Anonymous Author(s)} % TODO: add authors
+  \newcommand{\papersauthorrunning}{Anonymous}
+  \newcommand{\papersinstitute}{Anonymous Institution}
+
+  \newcommand{\webappname}{Climatica}
+  \newcommand{\webappurl}{\url{https://climatica.gsic.uva.es}}
+
+  \newcommand{\climateexpert}{Prof.\ Dr.\ Felipe Bravo}
+  \newcommand{\examplecity}{Valladolid (Spain)}
+\fi

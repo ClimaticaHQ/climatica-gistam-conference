@@ -35,7 +35,7 @@
 \end{sidewaystable}
 
 % in intro mention them very briefly, just mention them and here expand info
-% ! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< DOES OTHER APPS HAVE HEATMAP???? CHECK IT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+% ! <<<<<<<<<<<<<<<<<<<<<<< DOES OTHER APPS HAVE HEATMAP???? CHECK IT >>>>>>>>>>>>>>>>>>>>>>>>>
 \subsection{Existing Climate Visualisation Tools}\label{sec:related:existing-tools}
 Several web tools offer access to the climate data visualization, ranging from simple city profiles
 for general audiences to advanced platforms for climate researchers. 
@@ -72,7 +72,7 @@ In summary, tools aimed at the general public are limited to single-location,
 station-based views, whereas tools offering spatial and temporal analysis target
 expert users. None of them combines global gridded data, comparison across
 locations and periods, and regional analysis in an interface suitable for
-non-specialists, which is the gap addressed by \climatica{}.
+non-specialists, which is the gap addressed by \webappname{}.
 
 \subsection{WorldClim}\label{sec:related:worldclim} % ±half a page
 Weather stations alone are distributed unevenly across the globe, so their records alone cannot provide
@@ -105,3 +105,28 @@ is rarely used outside the research community.
 % \subsection{GIS for non-specialist users}\label{sec:}
 
 % ! before app would be good to specify running example
+\subsection{Running Example}\label{sec:related:running-example}
+
+\paragraph{IDK EITHER THIS MENTION WOULD BE ENOUGH HERE, AND WRITTEN FURTHER IN NEXT SECTION}
+
+\subsection{Running Example}\label{sec:web-application:running-example}
+
+To illustrate the capabilities of \webappname{}, we use a task from forest
+management practice proposed by \climateexpert{}. Forest management plans
+typically include an assessment of the local climate over the preceding 30-year
+period, which guides decisions such as which tree species are suitable for a site.
+As the climate shifts, a manager updating such a plan needs to know not only the
+current climate of the site but also how it has changed and how it varies across
+the managed area.
+
+Consider a forest manager updating the plan for a stand near \examplecity{}.
+The manager needs to:
+(T1)~obtain the climate profile of the site for the most recent normal (1991--2020);
+(T2)~quantify how the climate has changed relative to an earlier normal (1961--1990);
+(T3)~examine how temperature varies across the management unit; and
+(T4)~compare the site with an alternative location that may serve as a climate analogue for future conditions.
+
+With raw WorldClim data, each of these tasks would require locating the relevant
+raster files, downloading them and processing them with GIS tools.
+Section~\ref{sec:web-application:features} shows how \webappname{} can perform all of these tasks
+easily without requirements of guidelines or any GIS expertise. 
