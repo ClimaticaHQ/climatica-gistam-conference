@@ -16,39 +16,60 @@ precipitation or solar radiation evolve in a given region, and comparing climate
 periods or locations, can support informed decisions in agriculture, tourism, urban
 planning and many other domains.
 
-However, access to climate data is not that easy for everyone.
-Climate data itself is abundant. WorldClim~\cite{worldclim}, for instance, is an open dataset
-offering global gridded climate surfaces with 26 variables (including temperature,
-precipitation, solar radiation and wind speed) at resolutions from 30 arc-seconds to
-10 arc-minutes, covering historical, recent and future periods. However, despite the rich data 
-provided by WorldClim, it is cumbersome to retrieve and visualize needed information. It 
-requires downloading large raster files and processing them with specialised GIS software,
-which demands time and expertise that most potential users lack.
+However, accessing climate data remains challenging for many users. The combination of large 
+data volumes, multiple spatial and temporal scales, and specialized data formats often requires 
+the use of advanced GIS software and technical expertise. 
+WorldClim~\cite{worldclim}, for instance, is an open dataset offering global gridded
+climate surfaces for several variables, such as temperature, precipitation and solar
+radiation, at resolutions from 30 arc-seconds to 10 arc-minutes. Besides 30-year
+climate normals, it also provides monthly weather data for every year from 1951 to 2024,
+which makes it possible to study how climate has changed over recent decades.
+Nevertheless, retrieving and visualising the information needed from WorldClim is
+cumbersome: it requires downloading large raster files and processing them with
+specialised GIS software, which demands time and expertise that most potential users
+lack. Imagine, for instance, a user who wants to know the maximum temperature in Rome
+during the extreme heat of summer 2003. They first have to find the relevant file among
+the more than 8{,}000 published by WorldClim, each package being about 70 to 250 MB at 2.5 arc-minutes
+resolution. They then need GIS software or a library such as
+GDAL~\cite{mcinerney2015open} to read its contents and, not least, determine which
+pixel corresponds to Rome. Only after these steps it could discover that the maximum
+temperature in July and August 2003 was almost 3\,$^\circ$C above the 1970--2000 normal.
 
 % So that, big quantity of potential users are not able to use it. 
 
 % ? problem to solve: existing tools are not user friendly, require GIS knowledge, or are static..
 % \subsection{Objectives}\label{sec:objectives}
-Existing web tools only partially address this problem. Climate-Charts.net~\cite{zepner2021climatecharts},
-a representative example, relies on raw meteorological station records, leaving large regions
-poorly covered and values between stations unreliable; it is also restricted to a single historical 
-baseline and offers no regional analysis.
+Existing web tools only partially address this problem. 
+Climate-Charts.net~\cite{zepner2021climatecharts}, a representative example, generates 
+Walter--Lieth and bars climographs from several global datasets for any location and a 
+user-defined period. However, each chart describes a single location and period, and charts 
+cannot be overlaid, so comparing the climate of different places, or of the same place across 
+periods, requires generating separate charts and contrasting them manually.
 
-Other tools, reviewed in Section~\ref{sec:related:existing-tools}, show similar issues: narrow regional
-coverage, point-based or coarse resolution, limited time periods, and static
-single-location views without comparison across places or periods. 
-WorldClim does not suffer from these
-limitations; on the contrary provides gridded global coverage, fine spatial resolution and historical, 
-recent and future periods. What it lacks is an accessible interface, to  make the data easy to use by 
-everyone who needs it.
+Other applications aimed at the general public, such as Climate-Data.org~\cite{climatedataorg}
+and Meteoblue~\cite{meteoblue}, share similar limitations, while platforms such as
+NASA Giovanni~\cite{acker2022using} and the Copernicus Climate Data Store~\cite{buontempo2022copernicus}
+support temporal and spatial analysis but require registration and specialised knowledge.
+These tools also differ considerably in the data they serve, in terms of spatial
+resolution, time span and the availability of both climate normals and yearly weather
+data (see Section~\ref{sec:related}). WorldClim, by contrast, combines global gridded
+coverage, several spatial resolutions and a long historical record. What it lacks is
+an accessible interface that makes these data easy to explore for everyone who needs them.
 
 % ? proposed solution
-To bridge this gap, we present \webappname{}, a web application that provides interactive
-access to WorldClim data without requiring GIS expertise. Its main contributions are:
-(i)~visualisation of selected climate variables for any location worldwide, chosen on an
-interactive map, as Walter--Lieth climographs or bar charts;
-(ii)~comparison of climate across time periods and between locations;
+To bridge this gap, we present \webappname{}, a web application that provides
+interactive access to the complete WorldClim archive without requiring GIS expertise.
+The application retrieves data through the Semantic Configurable Raster API
+(SCRAPI)~\cite{scrapi}, which also allows new data, such as future projections or
+additional variables, to be incorporated without changes to the application. Its main
+contributions are:
+(i)~visualisation of selected climate variables for any location worldwide, chosen on
+an interactive map, as Walter--Lieth climographs or bar charts;
+(ii)~comparison of climate across time periods and between locations; and
 (iii)~export of results as images (PNG, SVG) or raw data (CSV, JSON) for further research.
+We also report a user evaluation with students from several European institutions,
+which assessed the usability of \webappname{} with the System Usability Scale (SUS)
+and collected qualitative feedback (Section~\ref{sec:evaluation}).
 
 % TODO: one sentence linking the work to the conference topics (web GIS, geospatial data access)
 
@@ -56,5 +77,5 @@ interactive map, as Walter--Lieth climographs or bar charts;
 The remainder of this paper is organised as follows. Section~\ref{sec:related} introduces the WorldClim dataset
 and describes existing climate visualisation tools. Section~\ref{sec:web-application} presents \webappname{},
 covering its requirements, data integration, architecture and main features. Section~\ref{sec:evaluation} describes
-the user evaluation and its results, also covering some discussion quiestions, and Section~\ref{sec:conclusions} 
+the user evaluation and its results, also covering some discussion questions. Section~\ref{sec:conclusions} 
 concludes the paper and outlines the future work.
