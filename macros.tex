@@ -5,6 +5,13 @@
 \newcommand{\pmark}{$\circ$}
 
 
+% * ________________ Figure placeholder ________________
+% ? usage: \figplaceholder{height}{description}
+\newcommand{\figplaceholder}[2]{%
+  \fbox{\parbox[c][#1][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{%
+    \centering\small\textit{#2}}}}
+
+
 
 % * ________________ Anonymisation switch ________________
 \newif\ifanonymous
@@ -16,11 +23,12 @@
 \newcommand{\paperskeywords}{Climate Data Visualisation \and WorldClim \and GIS \and Walter--Lieth Climograph \and Usability Evaluation}
 
 \ifanonymous
-  \newcommand{\papertitle}{Contribution Title (How to call it?)}
+  \newcommand{\papertitle}{Contribution Title}
 
   \newcommand{\papersauthor}{Anonymous Author(s)}
   \newcommand{\papersauthorrunning}{Anonymous}
   \newcommand{\papersinstitute}{Anonymous Institution}
+  \newcommand{\scrapiauthor}{Anonymous Author(s)}
 
   \newcommand{\webappname}{Web Application}
   \newcommand{\webappurl}{\url{https://webapp.example.com}}
@@ -30,11 +38,13 @@
 
 
 \else
-  \newcommand{\papertitle}{Contribution Title (How to call it?)}
+  \newcommand{\papertitle}{Contribution Title}
 
   \newcommand{\papersauthor}{Anonymous Author(s)} % TODO: add authors
   \newcommand{\papersauthorrunning}{Anonymous}
   \newcommand{\papersinstitute}{Anonymous Institution}
+  \newcommand{\scrapiauthor}{Prof.\ Dr.\ Guillermo Vega Gorgojo} % we is enough (in our previous work we did this and no reference)
+
 
   \newcommand{\webappname}{Climatica}
   \newcommand{\webappurl}{\url{https://climatica.gsic.uva.es}}
