@@ -1,12 +1,226 @@
 \section{\webappname}\label{sec:web-application} % * 6 pages, 7max
 
+\paragraph{i will add smth about google analytics after i will implement it (We are using google analytics to know more about app usage)}
+
+The main goal of \webappname{} is to let users without GIS expertise explore climate
+data for any location in the world through accessible, easy-to-understand
+visualisations. To this end, we designed it as an interactive map application, a common
+solution for accessing geospatial data: users select a location on the map and obtain
+its climate profile, which can then be compared with other locations or periods. The
+design follows three principles: (i)~global coverage of climate data; (ii)~interactive
+comparison across locations and periods; and (iii)~portability, achieved through web
+technologies, with the browser acting as a universal client, and by keeping user
+requirements to a minimum, without registration or local software installation. Climate data are retrieved
+through an API rather than processed from files by the application itself
+(Section~\ref{sec:web-application:data}), which keeps \webappname{} lightweight while
+preserving the full resolution of the dataset.
+
+% This section describes the design of \webappname{}. Section~\ref{sec:related:usage-example} introduces a real-world task 
+% example from forest management, from which the requirements in Section~\ref{sec:web-application:requirements} are derived.
+% Section~\ref{sec:web-application:data} explains how WorldClim data and other integrated sources, 
+% Section~\ref{sec:web-application:architecture} presents the architecture of the web application, and 
+% Section~\ref{sec:web-application:features} describes the main features, illustrated with the running example.
+
+\subsection{Usage Example}\label{sec:web-application:usage-example}
+
+To illustrate the capabilities of \webappname{}, we use a task from forest
+management practice proposed by \climateexpert{}. Forest management plans
+typically include an assessment of the local climate over the preceding 30-year
+period, which guides decisions such as which tree species are suitable for a site.
+As the climate shifts, a manager updating such a plan needs to know not only the
+current climate of the site but also how it has changed and how it varies across
+the managed area.
+
+Consider a forest manager updating the plan for a stand near \examplecity{}.
+The manager needs to:
+(T1)~obtain the climate profile of the site for the most recent normal (1991--2020);
+(T2)~quantify how the climate has changed relative to an earlier normal (1961--1990); and
+(T3)~compare the site with an alternative location that may serve as a climate analogue for future conditions.
+
+With raw WorldClim data, each of these tasks would require locating the relevant
+raster files, downloading them and processing them with GIS tools.
+Section~\ref{sec:web-application:features} shows how \webappname{} can perform all of these tasks
+easily without requirements of guidelines or any GIS expertise. 
+
 % * R1–Rn list of requirements for the app
 \subsection{Requirements}\label{sec:web-application:requirements}
+The requirements of \webappname{} arose from two complementary sources. First, we
+inspected the existing tools reviewed in Section~\ref{sec:related:existing-tools},
+identifying both must-have features already present in them, such as place search,
+Walter--Lieth climographs and chart export, and their main limitations, such as the
+lack of comparison across locations and periods, coarse spatial resolution and limited
+search options. Second, the requirements were refined in a panel of stakeholders,
+comprising software developers, data scientists and climate domain experts, which also
+contributed the running example (Section~\ref{sec:web-application:usage-example}). The
+resulting requirements are divided into functional and non-functional ones.
 
-% * WorldClim, що ще?
+% \begin{description}
+%   \setlength{\itemsep}{5pt}
+%   \item \textbf{R1 --- Location search.} Select any location on land by name with any language; search by coordinates or a click on the map.
+%   \item \textbf{R2 --- Data Visual Representation.} Display the climate data as a Walter--Lieth diagram, and a standard climograph on each page.
+%   \item \textbf{R3 --- City climate profile.} Display the climate profile, with climograms, and summary statistics.
+%   \item \textbf{R4 --- Location comparison.} Compare the climate of two locations on shared axes.
+%   \item \textbf{R5 --- Period comparison.} Compare the climate of a location across 30-year normals and individual years.
+%   \item \textbf{R6 --- Data export.} Export charts as images and data in raw formats.
+%   \item \textbf{R7 --- Shareable URL.} Ability to share url with selected plots and filters
+%   \item \textbf{R8 --- Portability.} Run in any modern web browser, without registration or local software installation.
+%   \item \textbf{R9 --- Localization.} Provide a multilingual interface.
+% \end{description}
+
+\subsubsection{Functional requirements.}
+\begin{description}
+  \setlength{\itemsep}{3pt}
+  \item[FR1 --- Location search.] Select any location on land by its name in any
+    supported language, by coordinates or by clicking on the map (T1--T3).
+  \item[FR2 --- Climate profile.] Display the climate of a location as a Walter--Lieth
+    diagram or a standard climograph, with summary statistics (T1).
+  \item[FR3 --- Period comparison.] Compare the climate of a location across 30-year
+    normals and individual years (T2).
+  \item[FR4 --- Location comparison.] Compare the climate of two locations on shared
+    axes (T3).
+  \item[FR5 --- Data export.] Export charts as images and data in raw formats.
+  \item[FR6 --- Shareable views.] Encode the selected location, period and filters in
+    the URL, so that any view can be shared with other users.
+\end{description}
+
+\subsubsection{Non-functional requirements.}
+\begin{description}
+  \setlength{\itemsep}{3pt}
+  \item[NFR1 --- Portability.] Run in any modern web browser, without registration or
+    local software installation.
+  \item[NFR2 --- Response time.] Show search suggestions while the user types and
+    display a climate profile within a few seconds, with repeated queries answered
+    faster through caching. % TODO: replace with measured values
+  \item[NFR3 --- Usability.] Be usable by people without GIS expertise
+    (assessed in Section~\ref{sec:evaluation}).
+  \item[NFR4 --- Localisation.] Provide a multilingual interface.
+\end{description}
+
 \subsection{Data Sources and Integration}\label{sec:web-application:data}
+- 1 page?
+\subsubsection{WorldClim Access through SCRAPI}\label{sec:web-application:data:scrapi-worldclim}
+\webappname{} relies on WorldClim (Section~\ref{sec:related:worldclim}) as its data
+source. As discussed there, the archive is distributed as 8{,}836 GeoTIFF files, about
+85.6\,GB in total. An application handling these files directly would need to store the
+whole archive, read the relevant raster for every request and locate the pixel that
+corresponds to the selected place, which would tie its implementation to the layout
+and format of the files.
+
+As an alternative, we decided to consult the data through an API. \webappname{} uses
+SCRAPI~\cite{scrapi}, a REST API that exposes the WorldClim archive as a set of
+resources: grids, one for each spatial resolution; cells within a grid; rasters, one for
+each variable and period; and pixels, the values of a raster in a given cell. Instead of
+converting the rasters in advance, SCRAPI reads the GeoTIFF files at request time and
+offers raster-oriented operations, such as finding the cell that contains a pair of
+coordinates or extracting the monthly pixel values of a variable for a given period and
+spatial resolution. SCRAPI also serves the four additional climate normals described in
+Section~\ref{sec:related:worldclim}.
+
+This decision has two main benefits. First, it decouples \webappname{} from the data
+format: the application never handles files, so changes in the organisation or format
+of the archive only affect the API, which protects the application against such
+variations. Second, the API offers uniform access to WorldClim that is not tied to
+\webappname{} and can therefore be reused by other applications interested in these
+data. Moreover, since only the requested values are transferred, the application
+remains lightweight.
+
+% WorldClim provides gridded climate data covering the globe at a spatial resolution
+% suitable for location-based climate analysis. The dataset contains monthly climate
+% variables and long-term averages, allowing the application to present both climate
+% normals and observations for individual years. Rather than downloading complete
+% GeoTIFF archives to the browser, \webappname{} accesses the required values SCRAPI~\cite{scrapi}.
+
+% SCRAPI exposes raster operations through a REST interface. For a point query, the
+% application sends the selected coordinates together with the requested variable,
+% period, and aggregation options. SCRAPI resolves the corresponding raster cells and
+% returns the values in a machine-readable response. The same approach supports
+% regional queries while keeping raster storage and processing on the server. This
+% integration reduces the amount of data transferred to the client and enables the
+% application to use WorldClim's spatial and temporal coverage without requiring GIS
+% software or local data management.
+
+\subsubsection{Search Flows}\label{sec:web-application:data:search-flows}
+- mention about geonames, why and how we use them
+- mention about usage of wikidata for coordinates search
+- about map usage and logic with click on map (idk either its crutual to mention about map, but after all its also an integration)
 
 \subsection{Architecture}\label{sec:web-application:architecture}
+- 1.5 pages with architecture schema which takes half a page
+- i will draw better schema for architecture and paste it here, below the schema i want to explain how regular flow of the app 
+usage works (SCRAPI, Redis, Solr, Wikidata); Guess whould be good to tell about caching strategies, how solar works and why
+we decided to implement solr insead of wikidata api; mention 
+tests and pipelines; 
+regarding ci/cd integration i dont know if there is any sense to write technical staff, I can just say
+that we have mechanisms to check quality of the app before pushing it to server and ability automatically update city search 
+functionality on prod after adding new locales
 
 % * main features of the app, with screenshots
 \subsection{Main Features}\label{sec:web-application:features}
+- 4-5 pages (including screenshots); probably would be good in examples show exactly results from Prof Felipe tasks?
+
+\subsubsection{City Climate}\label{sec:web-application:features:city-climate}
+- two or three screenshots with city climate view (one top and two bottoms with 2 different climograms); 
+
+\begin{figure}[t]
+  \centering
+  \figplaceholder{4cm}{City Climate page: map with location pin,
+    raster cell outline and summary statistics}
+  \caption{City Climate page for \examplecity{} (1991--2020 normal).}
+  \label{fig:city-climate}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \begin{minipage}[t]{0.49\textwidth}
+    \centering
+    \figplaceholder{4cm}{Walter--Lieth diagram}
+  \end{minipage}
+  \begin{minipage}[t]{0.49\textwidth}
+    \centering
+    \figplaceholder{4cm}{Standard climograph}
+  \end{minipage}\hfill
+  \caption{Climate profile of \examplecity{} (1991--2020) as (a) a Walter--Lieth diagram and (b) a standard
+    climograph}
+  \label{fig:climographs}
+\end{figure}
+
+\subsubsection{Compare Cities}\label{sec:web-application:features:compare-cities}
+- show comparison table and climogram, guess here could be wl diagrams side-by side, and
+
+\begin{figure}[t]
+  \centering
+  \figplaceholder{5cm}{Compare Cities page: statistics table and wl diagrams side by side}
+  \caption{Comparison of the climate normals between \examplecity{} and \examplecity{}.}
+  \label{fig:compare-periods}
+\end{figure}
+
+\subsubsection{Compare Periods}\label{sec:web-application:features:compare-periods}
+- here could be defalult climograms side by side or overlapped?
+
+\begin{figure}[t]
+  \centering
+  \figplaceholder{5cm}{Compare Periods page: statistics table and overlapped chart}
+  \caption{Comparison of the climate normals for \examplecity{}.}
+  \label{fig:compare-periods}
+\end{figure}
+
+\subsubsection{Data Export}\label{sec:web-application:features:data-export}
+- here i whould like to show exported picture from city climate page and raw csv export example
+
+\begin{figure}[t]
+  \centering
+  \figplaceholder{5cm}{exported png of}
+  \caption{exported png of city climate page for \examplecity{} }
+  \label{fig:compare-periods}
+\end{figure}
+
+\subsubsection{Location search}\label{sec:web-application:features:location-search}
+Users can locate a place in three ways: by typing its name, by entering a pair of
+coordinates, or by clicking on the map (R1). Name search queries a Solr index of
+over 12~million populated places from GeoNames~\cite{geonames}, with names available
+in all supported languages. Suggestions appear while typing and are ranked by
+population, and fuzzy matching based on the Damerau--Levenshtein edit
+distance~\cite{damerau1964technique} tolerates typing errors, so a query such as
+``Valldolid'' still returns Valladolid.
+
+- also would be good to breafly mention about not localized sharable urls, and the number of localizations 
